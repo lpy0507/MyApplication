@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:example="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.lpy.myapplication.custom.MyEditText
+        android:id="@+id/nameEt"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        example:my_bitmap="@mipmap/img_ren" />
+
+    <com.example.lpy.myapplication.custom.MyEditText
+        android:id="@+id/cardEt"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        example:my_bitmap="@mipmap/img_zhengjian" />
+
+    <com.example.lpy.myapplication.custom.MyEditText
+        android:id="@+id/bankEt"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        example:my_bitmap="@mipmap/img_kahao" />
+
+    <com.example.lpy.myapplication.custom.MyEditText
+        android:id="@+id/phoneEt"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        example:my_bitmap="@mipmap/img_shouji" />
+</LinearLayout>

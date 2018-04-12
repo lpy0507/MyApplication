@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 声明属性级的名称 -->
+    <declare-styleable name="MyEditText">
+        <!-- 声明一个属性，字符串 -->
+        <attr name="my_text" format="string" />
+        <!-- 声明一个属性，字符串 -->
+        <attr name="my_hint" format="string" />
+        <!-- 声明一个属性，引用，引用资源id -->
+        <attr name="my_bitmap" format="reference" />
+    </declare-styleable>
+</resources>

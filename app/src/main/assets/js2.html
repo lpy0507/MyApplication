@@ -1,0 +1,51 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+
+<title>Android WebView 与 Javascript 交互</title>
+<head>
+    <style>
+  body {background-color:#e6e6e6}
+
+  .rect
+  {
+    color:white;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:16px;
+    width:100px;
+    padding:6px;
+    background-color:#98bf21;
+    text-decoration:none;
+    text-align:center;
+    border:none;
+    cursor:pointer;
+  }
+
+  .inputStyle {font-size:16px;padding:6px}
+  </style>
+</head>
+
+<body>
+<p>测试Android WebView 与 Javascript 交互</p>
+<input id = "name_input" class = "inputStyle" type="text"/>
+<input id = "phone_input" class = "inputStyle" type="number"/>
+<input id = "card_input" class = "inputStyle" type="number"/>
+<p class = "rect" onclick="sendInfoToJava()">JS调用Java开始注册</p>
+
+<script>
+  function sendInfoToJava(){
+    //调用android程序中的方法，并传递参数
+    var name = document.getElementById("name_input").value;
+    var phone = document.getElementById("phone_input").value;
+    var card = document.getElementById("card_input").value;
+    window.AndroidWebView.showInfoFromJs(name,phone,card);
+  }
+
+  //在android代码中调用此方法
+  function showInfoFromJava(msg){
+    alert("来自客户端的信息："+msg);
+  }
+  </script>
+
+</body>
+</html>
