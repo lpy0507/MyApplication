@@ -2,6 +2,7 @@ package com.example.lpy.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,14 @@ import com.example.lpy.myapplication.activity.MyFreeStyleActivity;
 import com.example.lpy.myapplication.activity.SlidingConflict;
 import com.example.lpy.myapplication.activity.SpeechRecognitionActivity;
 import com.example.lpy.myapplication.adapter.ListViewAdapter;
+import com.example.lpy.myapplication.utils.LogUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import rx.Observable;
@@ -60,6 +68,69 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         someTest();
+        /**
+         * 获取手机文件等
+         */
+        getFilesPath();
+
+        int sum = 5; //10元5瓶
+        int body = 5;
+        int hat = 5;
+        getDrinkNums(sum, body, hat);
+
+    }
+
+    /**
+     * 每瓶啤酒2元，2个空酒瓶或4个瓶盖可换1瓶啤酒。10元最多可喝多少瓶啤酒？
+     *
+     * @param sum  喝酒总数
+     * @param body 当前剩余酒瓶
+     * @param hat  当前剩余瓶盖
+     * @return 喝酒总数
+     */
+    private int getDrinkNums(int sum, int body, int hat) {
+        int body1 = body / 2;
+        int bodyR = body % 2;
+        int hat1 = hat / 4;
+        int hatR = hat % 4;
+        sum = sum + body1 + hat1;
+        body = bodyR + body1 + hat1;
+        hat = hatR + body1 + hat1;
+        Log.e("喝了===", sum + "瓶");
+        if (body >= 2 || hat >= 4) {
+            getDrinkNums(sum, body, hat);
+        }
+        return sum;
+    }
+
+    /**
+     * 获取手机文件等
+     */
+    private void getFilesPath() {
+        LogUtil.e("app文件路径==", "" + getFilesDir()); // /data/data/com.example.lpy.myapplication/files
+        LogUtil.e("app文件路径==", "" + getApplicationContext().getFilesDir().getAbsolutePath()); //同上
+        LogUtil.e("app缓存路径==", "" + this.getCacheDir()); // /data/data/com.example.lpy.myapplication/cache
+
+        /**   内置存储卡根目录 /storage/emulated/0    */
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        /** 打印内置存储卡目录下的文件路径*/
+        LogUtil.e("Environment==", "" + path + "/OrderFiles/test2");
+
+        /** path路径下的文件*/
+        File filePath = new File(path);
+
+        /** path路径下文件内的文件列表*/
+        File[] files = filePath.listFiles();
+
+        /** 文件列表名称打印*/
+        LogUtil.e("files==", "" + getFileName(files).toString());
+        String data = readFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/OrderFiles/test3");
+        /** String转json*/
+//        HallConfigData hallConfigData = gson.fromJson(data, HallConfigData.class);
+        /** json转String*/
+//        String gson = new Gson().toJson(hallConfigData);
+//        LogUtil.e("hallConfigData==", "" + hallConfigData.getHOST().toString());
     }
 
     private void someTest() {
@@ -170,6 +241,60 @@ public class MainActivity extends AppCompatActivity {
     private void goActivity(Class activity) {
         startActivity(new Intent(this, activity));
         overridePendingTransition(R.anim.animation_item, R.anim.animation_item);
+    }
+
+    /**
+     * 读取文本数据
+     *
+     * @return String, 读取到的文本内容，失败返回null
+     */
+    public static String readFile(String filePath) {
+        if (filePath == null || !new File(filePath).exists()) {
+            return null;
+        }
+        FileInputStream fis = null;
+        String content = null;
+        try {
+            fis = new FileInputStream(filePath);
+            if (fis != null) {
+
+                byte[] buffer = new byte[1024];
+                ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+                while (true) {
+                    int readLength = fis.read(buffer);
+                    if (readLength == -1) break;
+                    arrayOutputStream.write(buffer, 0, readLength);
+                }
+                fis.close();
+                arrayOutputStream.close();
+                content = new String(arrayOutputStream.toByteArray());
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            content = null;
+        } finally {
+            try {
+                if (fis != null) fis.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+        return content;
+    }
+
+    //读取指定目录下的所有TXT文件的文件名
+    private ArrayList<String> getFileName(File[] files) {
+        ArrayList<String> list = new ArrayList<>();
+        String str = "";
+        if (files != null) { // 先判断目录是否为空，否则会报空指针
+            for (File file : files) {
+                list.add(file.getName());
+            }
+        }
+        return list;
     }
 
 }

@@ -12,7 +12,7 @@ import com.nineoldandroids.view.ViewHelper;
  * Created by LPY on 2017/12/11.
  */
 
-public class FreeDragView extends ImageView {
+public class FreeDragView extends android.support.v7.widget.AppCompatImageView {
 
     int mLastX = 0;
     int mLastY = 0;
