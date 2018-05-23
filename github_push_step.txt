@@ -1,0 +1,7 @@
+git add -a   --->添加全部修改
+
+git commit -m"" --->提交修改并注释
+
+git remote rm origin
+
+git remote add origin https://github.com/lpy0507/MyApplication.git

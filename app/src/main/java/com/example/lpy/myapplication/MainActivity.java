@@ -3,7 +3,6 @@ package com.example.lpy.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,7 +32,7 @@ import java.util.Arrays;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private ListView listView;
     private String[] listString = {"自定义光能魔法阵动画", "JS交互", "自定义EditText", "ConstraintLayout",
             "FreeDragView", "Sliding Conflict", "自启", "动画", "弹幕", "自定义View练习", "讯飞语音识别"};
@@ -297,4 +296,17 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
+    private long time = 0;
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        long nowTime = System.currentTimeMillis();
+        if (nowTime - time > 2000) {
+            showToast("再次点击退出");
+            time = nowTime;
+        } else {
+            System.exit(0);
+        }
+    }
 }
