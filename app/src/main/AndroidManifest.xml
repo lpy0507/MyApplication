@@ -43,7 +43,8 @@
             android:screenOrientation="landscape" />
         <activity android:name=".activity.MyFreeStyleActivity" />
         <activity android:name=".activity.SpeechRecognitionActivity" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".activity.DragRecyclerActivity"></activity>
     </application>
 
 </manifest>
