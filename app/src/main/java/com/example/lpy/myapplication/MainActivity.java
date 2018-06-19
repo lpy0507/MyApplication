@@ -20,6 +20,7 @@ import com.example.lpy.myapplication.activity.MyFreeStyleActivity;
 import com.example.lpy.myapplication.activity.SlidingConflict;
 import com.example.lpy.myapplication.activity.SpeechRecognitionActivity;
 import com.example.lpy.myapplication.adapter.ListViewAdapter;
+import com.example.lpy.myapplication.bean.User;
 import com.example.lpy.myapplication.utils.LogUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -29,6 +30,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -68,7 +75,68 @@ public class MainActivity extends BaseActivity {
                 else if (position == 11) goActivity(DragRecyclerActivity.class);
             }
         });
-        someTest();
+//        someTest();
+        HashMap<Integer, User> hashMap = new HashMap<>();
+        User user1 = new User("张三", 28);
+        User user2 = new User("李四", 26);
+        User user3 = new User("王五", 30);
+        User user4 = new User("刘六", 28);
+        hashMap.put(1, user1);
+        hashMap.put(2, user2);
+        hashMap.put(3, user3);
+        hashMap.put(4, user4);
+        LogUtil.e("排序=前==", hashMap.toString() + "");
+        HashMap<Integer, User> sortHashMap = sortHashMap(hashMap);
+        LogUtil.e("排序=后==", sortHashMap.toString() + "");
+    }
+
+    /**
+     * 将HashMap以User的age从小到大排序
+     *
+     * @param hashMap
+     * @return
+     */
+    private HashMap<Integer, User> sortHashMap(Map<Integer, User> hashMap) {
+
+        //1.HashMap是不可能排序的，因为它是无序的，就算用循环的方式排好序，最后它还是会自动打乱，本身不支持；
+        //2.所以，我们只能找一个和HashMap有关的、可排序的数据结构→LinkedHashMap:底层是链表结构，支持排序；
+        LinkedHashMap<Integer, User> newSortHashMap = new LinkedHashMap<>();
+        //3.既然对集合进行排序，首先要想到使用集合本身自带的工具类；
+        //4.Collections.sort()方法传入的是一个List,所以我们还要把HashMap先转换成List...
+        //5.然而，HashMap和List还不能直接转换，还要经过Set转换...
+        Set<Map.Entry<Integer, User>> entries = hashMap.entrySet();
+        ArrayList<Map.Entry<Integer, User>> list = new ArrayList<>(entries);
+        Collections.sort(list, new Comparator<Map.Entry<Integer, User>>() {
+            @Override
+            public int compare(Map.Entry<Integer, User> integerUserEntry, Map.Entry<Integer, User> t1) {
+                return integerUserEntry.getValue().getAge() - t1.getValue().getAge();
+            }
+        });
+        //6.排序已完成，最后把list转为LinkedHashMap即可
+        for (int i = 0; i < list.size(); i++) {
+            Map.Entry<Integer, User> integerUserEntry = list.get(i);
+            newSortHashMap.put(integerUserEntry.getKey(), integerUserEntry.getValue());
+        }
+        return newSortHashMap;
+    }
+
+    private void someTest() {
+
+        /**1.测试getIntent()默认是否为空**/
+        Intent intent = getIntent();
+        Log.e("Intent===", intent.toString());
+
+        /**2.RxJava小测试**/
+        rxJavaTest();
+
+        /**3.冒泡排序**/
+        bubbleSort();
+
+        /**4.选择排序**/
+        selectionSort();
+
+        /**5.插入排序**/
+        insertSort();
         /**
          * 获取手机文件等
          */
@@ -78,7 +146,6 @@ public class MainActivity extends BaseActivity {
         int body = 5;
         int hat = 5;
         getDrinkNums(sum, body, hat);
-
     }
 
     /**
@@ -132,25 +199,6 @@ public class MainActivity extends BaseActivity {
         /** json转String*/
 //        String gson = new Gson().toJson(hallConfigData);
 //        LogUtil.e("hallConfigData==", "" + hallConfigData.getHOST().toString());
-    }
-
-    private void someTest() {
-
-        /**1.测试getIntent()默认是否为空**/
-//        Intent intent = getIntent();
-//        Log.e("Intent===", intent.toString());
-
-        /**2.RxJava小测试**/
-//        rxJavaTest();
-
-        /**3.冒泡排序**/
-//        bubbleSort();
-
-        /**4.选择排序**/
-//        selectionSort();
-
-        /**5.插入排序**/
-        insertSort();
     }
 
     /**
