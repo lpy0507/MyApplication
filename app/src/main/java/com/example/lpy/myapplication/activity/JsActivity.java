@@ -34,7 +34,7 @@ public class JsActivity extends Activity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.loadUrl("file:///android_asset/js2.html");
+        webView.loadUrl("file:///android_asset/js.html");
         webView.addJavascriptInterface(new JsToJava(), "AndroidWebView");
         webView.setWebChromeClient(new WebChromeClient() {
             @Override

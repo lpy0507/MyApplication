@@ -1,20 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/img_bg"
-    tools:context="com.example.lpy.myapplication.activity.FreeDragActivity">
+    android:gravity="center"
+    android:orientation="horizontal">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="1000dp">
+    <com.example.lpy.myapplication.custom.ViewGroupA
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle"
+        android:gravity="center">
 
-        <com.example.lpy.myapplication.custom.FreeDragView
-            android:id="@+id/freeDragView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/ic_launcher" />
+        <com.example.lpy.myapplication.custom.ViewGroupB
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:background="@drawable/bg_circle_white"
+            android:gravity="center">
 
-    </ScrollView>
-</RelativeLayout>
+            <com.example.lpy.myapplication.custom.ViewC
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/bg_circle_red" />
+        </com.example.lpy.myapplication.custom.ViewGroupB>
+    </com.example.lpy.myapplication.custom.ViewGroupA>
+
+    <View
+        android:layout_width="30dp"
+        android:layout_height="wrap_content" />
+
+    <com.example.lpy.myapplication.custom.ViewGroupA
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle"
+        android:gravity="center">
+
+        <com.example.lpy.myapplication.custom.ViewGroupB
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:background="@drawable/bg_circle_white"
+            android:gravity="center">
+
+            <com.example.lpy.myapplication.custom.ViewC
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/bg_circle_red" />
+        </com.example.lpy.myapplication.custom.ViewGroupB>
+    </com.example.lpy.myapplication.custom.ViewGroupA>
+</LinearLayout>

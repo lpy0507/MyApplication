@@ -115,7 +115,7 @@ public class HorizontalScrollView extends ViewGroup {
                 break;
         }
 
-        lastInterceptY = x;
+        lastInterceptX = x;
         lastInterceptY = y;
         return intercepted;
     }

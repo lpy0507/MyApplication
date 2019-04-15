@@ -2,4 +2,11 @@
     <string name="app_name">My Application</string>
     <string name="aaa">这里是答案围观后\n可查看，这里是\n答案围观后可查看这里是答案，围观后\n可查看
     这里是答案围观后可查看这里是答案围观后可查看</string>
+    <string name="shortcuts_1">时间轴</string>
+    <string name="shortcuts_2">电影列表时间轴</string>
+    <string name="shortcuts_3">第一次场试</string>
+    <string name="shortcuts1_1">弹幕</string>
+    <string name="shortcuts1_2">发送弹幕</string>
+    <string name="shortcuts2_1">动画</string>
+    <string name="shortcuts2_2">动画练习</string>
 </resources>

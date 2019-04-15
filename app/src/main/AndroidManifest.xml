@@ -28,6 +28,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"
+            />
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.MagicActivity" />
@@ -44,7 +48,8 @@
         <activity android:name=".activity.MyFreeStyleActivity" />
         <activity android:name=".activity.SpeechRecognitionActivity" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".activity.DragRecyclerActivity"></activity>
+        <activity android:name=".activity.DragRecyclerActivity" />
+        <activity android:name=".activity.TimeAxisActivity"></activity>
     </application>
 
 </manifest>

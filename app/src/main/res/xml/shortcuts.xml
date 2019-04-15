@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutDisabledMessage="@string/shortcuts_3"
+        android:shortcutId="settings"
+        android:shortcutLongLabel="@string/shortcuts_2"
+        android:shortcutShortLabel="@string/shortcuts_1">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.lpy.myapplication.activity.TimeAxisActivity"
+            android:targetPackage="com.example.lpy.myapplication" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutDisabledMessage="@string/shortcuts_3"
+        android:shortcutId="settings1"
+        android:shortcutLongLabel="@string/shortcuts1_2"
+        android:shortcutShortLabel="@string/shortcuts1_1">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.lpy.myapplication.activity.BarrageVideoActivity"
+            android:targetPackage="com.example.lpy.myapplication" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutDisabledMessage="@string/shortcuts_3"
+        android:shortcutId="settings2"
+        android:shortcutLongLabel="@string/shortcuts2_2"
+        android:shortcutShortLabel="@string/shortcuts2_1">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.example.lpy.myapplication.MainActivity"
+            android:targetPackage="com.example.lpy.myapplication" />
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.lpy.myapplication.activity.AnimationActivity"
+            android:targetPackage="com.example.lpy.myapplication" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

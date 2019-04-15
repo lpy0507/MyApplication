@@ -15,8 +15,9 @@ public class Utils {
             if (context != null) {
                 ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo mNetworkInfo = mConnectivityManager
-                        .getActiveNetworkInfo();
+                NetworkInfo mNetworkInfo = null;
+                if (mConnectivityManager != null)
+                    mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
                 if (mNetworkInfo != null) {
                     return mNetworkInfo.isAvailable();
                 }

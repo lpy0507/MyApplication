@@ -25,20 +25,16 @@ public class FileUtils {
         String content = null;
         try {
             fis = new FileInputStream(filePath);
-            if (fis != null) {
-
-                byte[] buffer = new byte[1024];
-                ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-                while (true) {
-                    int readLength = fis.read(buffer);
-                    if (readLength == -1) break;
-                    arrayOutputStream.write(buffer, 0, readLength);
-                }
-                fis.close();
-                arrayOutputStream.close();
-                content = new String(arrayOutputStream.toByteArray());
-
+            byte[] buffer = new byte[1024];
+            ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+            while (true) {
+                int readLength = fis.read(buffer);
+                if (readLength == -1) break;
+                arrayOutputStream.write(buffer, 0, readLength);
             }
+            fis.close();
+            arrayOutputStream.close();
+            content = new String(arrayOutputStream.toByteArray());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

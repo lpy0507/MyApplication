@@ -13,6 +13,7 @@ public class ConstraintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_constraint);
         ActionBar bar = getSupportActionBar();
-        bar.hide();
+        if (bar != null)
+            bar.hide();
     }
 }

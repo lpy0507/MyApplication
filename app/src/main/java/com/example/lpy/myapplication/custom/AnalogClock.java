@@ -107,6 +107,7 @@ public class AnalogClock extends View {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == null) return;
             if (intent.getAction().equals(Intent.ACTION_TIME_CHANGED)) {
                 String tz = intent.getStringExtra("time-zone");
                 mTime = new Time(TimeZone.getTimeZone(tz).getID());

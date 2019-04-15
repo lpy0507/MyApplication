@@ -19,8 +19,11 @@ import com.example.lpy.myapplication.activity.MyEditTextActivity;
 import com.example.lpy.myapplication.activity.MyFreeStyleActivity;
 import com.example.lpy.myapplication.activity.SlidingConflict;
 import com.example.lpy.myapplication.activity.SpeechRecognitionActivity;
+import com.example.lpy.myapplication.activity.TimeAxisActivity;
 import com.example.lpy.myapplication.adapter.ListViewAdapter;
 import com.example.lpy.myapplication.bean.User;
+import com.example.lpy.myapplication.func.sorts.BubbleSort;
+import com.example.lpy.myapplication.others.ListenerCollector;
 import com.example.lpy.myapplication.utils.LogUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -33,27 +36,54 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import rx.Observable;
 import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity {
+
+    HashMap map = new HashMap();
+    Hashtable hashtable = new Hashtable();
     private ListView listView;
     private String[] listString = {"自定义光能魔法阵动画", "JS交互", "自定义EditText", "ConstraintLayout",
-            "FreeDragView", "Sliding Conflict", "自启", "动画", "弹幕", "自定义View练习", "讯飞语音识别", "RecyclerView拖动排序"};
+            "FreeDragView", "Sliding Conflict", "自启", "动画", "弹幕", "自定义View练习", "讯飞语音识别", "RecyclerView拖动排序", "时间轴日程安排"};
     private ListViewAdapter adapter;
 
     /**
      * 排序数据
      */
-    private int[] array = {1000000000, 666666, 88888888, 1, 999999999, 333, 7777777, 4444, 55555, 22};
+    private int[] array = {6, 5, 4, 3, 2, 1, 7, 8, 9};
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ListenerCollector.clearListener();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        MyView myView = new MyView(this);
+//        setContentView(myView);
+        map.put(0,
+                "0");
+        map.put(2,
+                null);
+        map.put(null,
+                null);
+        LogUtil.e("aaaaaaaaa", "=====" + map.size());
+        hashtable.put("a",
+                "b");
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
         adapter = new ListViewAdapter(this, listString);
@@ -73,51 +103,57 @@ public class MainActivity extends BaseActivity {
                 else if (position == 9) goActivity(MyFreeStyleActivity.class);
                 else if (position == 10) goActivity(SpeechRecognitionActivity.class);
                 else if (position == 11) goActivity(DragRecyclerActivity.class);
+                else if (position == 12) goActivity(TimeAxisActivity.class);
             }
         });
 //        someTest();
-        HashMap<Integer, User> hashMap = new HashMap<>();
-        User user1 = new User("张三", 28);
-        User user2 = new User("李四", 26);
-        User user3 = new User("王五", 30);
-        User user4 = new User("刘六", 28);
-        hashMap.put(1, user1);
-        hashMap.put(2, user2);
-        hashMap.put(3, user3);
-        hashMap.put(4, user4);
-        LogUtil.e("排序=前==", hashMap.toString() + "");
-        HashMap<Integer, User> sortHashMap = sortHashMap(hashMap);
-        LogUtil.e("排序=后==", sortHashMap.toString() + "");
+
+//        BubbleSort.bubbleSort(array);
+        BubbleSort.bubbleSort2(array);
+        getResult(5);
+
+        /**
+         * 计算易通行打折计算
+         */
+        int day = 22; //天数
+        int num = day * 2;//乘车次数是天数的二倍
+        float initMoney = 5;
+        float indexMoney = initMoney;
+        float money = 0; //优惠金额
+        for (int i = 0; i < 3; i++) {
+            if (i == 0) {
+                for (int j = 0; j < 20; j++) {
+                    money += 1;
+                }
+            } else if (i == 1) {
+                for (int j = 0; j < 13; j++) {
+                    money += 0.8;
+                }
+            } else {
+                for (int j = 0; j < 10; j++) {
+                    money += 0.5;
+                }
+            }
+        }
+        Log.e("==money==", "money==" + money);
     }
 
     /**
-     * 将HashMap以User的age从小到大排序
+     * 递归
      *
-     * @param hashMap
+     * @param n
      * @return
      */
-    private HashMap<Integer, User> sortHashMap(Map<Integer, User> hashMap) {
-
-        //1.HashMap是不可能排序的，因为它是无序的，就算用循环的方式排好序，最后它还是会自动打乱，本身不支持；
-        //2.所以，我们只能找一个和HashMap有关的、可排序的数据结构→LinkedHashMap:底层是链表结构，支持排序；
-        LinkedHashMap<Integer, User> newSortHashMap = new LinkedHashMap<>();
-        //3.既然对集合进行排序，首先要想到使用集合本身自带的工具类；
-        //4.Collections.sort()方法传入的是一个List,所以我们还要把HashMap先转换成List...
-        //5.然而，HashMap和List还不能直接转换，还要经过Set转换...
-        Set<Map.Entry<Integer, User>> entries = hashMap.entrySet();
-        ArrayList<Map.Entry<Integer, User>> list = new ArrayList<>(entries);
-        Collections.sort(list, new Comparator<Map.Entry<Integer, User>>() {
-            @Override
-            public int compare(Map.Entry<Integer, User> integerUserEntry, Map.Entry<Integer, User> t1) {
-                return integerUserEntry.getValue().getAge() - t1.getValue().getAge();
-            }
-        });
-        //6.排序已完成，最后把list转为LinkedHashMap即可
-        for (int i = 0; i < list.size(); i++) {
-            Map.Entry<Integer, User> integerUserEntry = list.get(i);
-            newSortHashMap.put(integerUserEntry.getKey(), integerUserEntry.getValue());
+    private int getResult(int n) {
+        Log.e("==n!==", "n==" + n);
+        if (n == 0) {
+            return 1;
+        } else if (n > 0) {
+            int result = n * getResult(n - 1);
+            Log.e("==n!==", "result==" + result);
+            return result;
         }
-        return newSortHashMap;
+        return -1;
     }
 
     private void someTest() {
@@ -131,17 +167,28 @@ public class MainActivity extends BaseActivity {
 
         /**3.冒泡排序**/
         bubbleSort();
+        bubbleSort2();
 
         /**4.选择排序**/
         selectionSort();
 
         /**5.插入排序**/
         insertSort();
-        /**
-         * 获取手机文件等
-         */
+
+        /**6.获取手机文件等**/
         getFilesPath();
 
+        /**7.HashMap排序**/
+        sortHashMapData();
+
+        /**8.计算最多能喝多少瓶啤酒**/
+        getDrinkNum();
+
+        /**9.字符串反转**/
+        reverseStr();
+    }
+
+    private void getDrinkNum() {
         int sum = 5; //10元5瓶
         int body = 5;
         int hat = 5;
@@ -210,18 +257,25 @@ public class MainActivity extends BaseActivity {
      */
     private void insertSort() {
         int temp;
+        boolean flag;
         for (int i = 0; i < array.length - 1; i++) {
+            flag = false;
             for (int j = i + 1; j > 0; j--) {
                 if (array[j] < array[j - 1]) {
                     temp = array[j - 1];
                     array[j - 1] = array[j];
                     array[j] = temp;
-                } else {
-                    break;
+                    flag = true;
                 }
             }
+            if (flag) {
+                Log.e("插入排序===", i + "==" + Arrays.toString(array));
+            } else {
+                Log.e("插入排序===", i + "=break=");
+                break;
+            }
         }
-        Log.e("插入排序===", Arrays.toString(array));
+
     }
 
     /**
@@ -245,13 +299,16 @@ public class MainActivity extends BaseActivity {
                 int temp = array[i]; //记录当前位置数值
                 array[i] = array[minIndex];
                 array[minIndex] = temp;
+                Log.e("选择排序===", i + "==" + Arrays.toString(array));
+            } else {
+                Log.e("选择排序===", i + "=break=");
+                break;
             }
         }
-        Log.e("选择排序===", Arrays.toString(array));
     }
 
     /**
-     * 3.冒泡排序
+     * 3.冒泡排序(从后往前比)
      * 平均时间复杂度:O(n2)
      * 过程:从后向前两两比较，较大的放后面，第一次比完之后，最小数会被换到最前面；
      * 重复该过程......
@@ -259,20 +316,50 @@ public class MainActivity extends BaseActivity {
     private void bubbleSort() {
         int middleNum;
         boolean flag; //停止遍历的标志
-        for (int i = 0; i < array.length - 1; i++) { //总共需要遍历length-1次
-            Log.e("i===", i + "");
-            flag = false;
-            for (int j = array.length - 1; j > i; j--) { //从后往前比较
-                if (array[j] < array[j - 1]) { //如果后者比前者小，则交换位置
-                    middleNum = array[j];  //存储后一位数值
-                    array[j] = array[j - 1]; //将前一位的数值赋值给后一位
-                    array[j - 1] = middleNum; //将刚才储存的后一位的数值赋值给前一位
-                    flag = true; //表示有变动，则继续遍历
+        int[] a = {5, 4, 3, 2, 1, 6};
+        for (int i = 0; i < a.length - 1; i++) { //总共需要遍历length-1次
+            flag = true;
+            for (int j = a.length - 1; j > i; j--) { //从后往前比较
+                if (a[j] < a[j - 1]) { //如果后者比前者小，则交换位置
+                    middleNum = a[j];  //存储后一位数值
+                    a[j] = a[j - 1]; //将前一位的数值赋值给后一位
+                    a[j - 1] = middleNum; //将刚才储存的后一位的数值赋值给前一位
+                    flag = false; //表示有变动，则继续遍历
                 }
             }
-            if (!flag) break; //表示该轮遍历无任何变动，说明所有的数已经排序完成，则停止之后的无用遍历。
+            if (flag) { //表示该轮遍历无任何变动，说明所有的数已经排序完成，则停止之后的无用遍历。
+                Log.e("bubbleSort===", i + "=break=" + Arrays.toString(a));
+                break;
+            } else {
+                Log.e("bubbleSort===", i + "==" + Arrays.toString(a));
+            }
         }
-        Log.e("bubbleSort===", Arrays.toString(array));
+    }
+
+    /**
+     * 冒泡(从前往后比)
+     */
+    private void bubbleSort2() {
+        int temp;
+        boolean flag;
+        int[] a = {5, 4, 3, 2, 1, 6};
+        for (int i = 0; i < a.length - 1; i++) {
+            flag = true;
+            for (int j = 0; j < a.length - i - 1; j++) {
+                if (a[j] > a[j + 1]) {
+                    temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                    flag = false;
+                }
+            }
+            if (flag) {
+                Log.e("bubbleSort2===", i + "=break=" + Arrays.toString(a));
+                break;
+            } else {
+                Log.e("bubbleSort2===", i + "==" + Arrays.toString(a));
+            }
+        }
     }
 
     /**
@@ -305,20 +392,16 @@ public class MainActivity extends BaseActivity {
         String content = null;
         try {
             fis = new FileInputStream(filePath);
-            if (fis != null) {
-
-                byte[] buffer = new byte[1024];
-                ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-                while (true) {
-                    int readLength = fis.read(buffer);
-                    if (readLength == -1) break;
-                    arrayOutputStream.write(buffer, 0, readLength);
-                }
-                fis.close();
-                arrayOutputStream.close();
-                content = new String(arrayOutputStream.toByteArray());
-
+            byte[] buffer = new byte[1024];
+            ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+            while (true) {
+                int readLength = fis.read(buffer);
+                if (readLength == -1) break;
+                arrayOutputStream.write(buffer, 0, readLength);
             }
+            fis.close();
+            arrayOutputStream.close();
+            content = new String(arrayOutputStream.toByteArray());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -345,6 +428,68 @@ public class MainActivity extends BaseActivity {
         }
         return list;
     }
+
+    /**
+     * 字符串反转---stack
+     * O(1)
+     */
+    private void reverseStr() {
+        Stack stack = new Stack();
+        String str = "我爱你";
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            stack.push(c);
+        }
+        while (!stack.isEmpty()) {
+            Log.e("字符串反转==stack==", "" + stack.pop());
+        }
+    }
+
+    private void sortHashMapData() {
+        HashMap<Integer, User> hashMap = new HashMap<>();
+        User user1 = new User("张三", 28);
+        User user2 = new User("李四", 26);
+        User user3 = new User("王五", 30);
+        User user4 = new User("刘六", 28);
+        hashMap.put(1, user1);
+        hashMap.put(2, user2);
+        hashMap.put(3, user3);
+        hashMap.put(4, user4);
+        LogUtil.e("排序=前==", hashMap.toString() + "");
+        HashMap<Integer, User> sortHashMap = sortHashMap(hashMap);
+        LogUtil.e("排序=后==", sortHashMap.toString() + "");
+    }
+
+    /**
+     * 将HashMap以User的age从小到大排序
+     *
+     * @param hashMap
+     * @return
+     */
+    private HashMap<Integer, User> sortHashMap(Map<Integer, User> hashMap) {
+
+        //1.HashMap是不可能排序的，因为它是无序的，就算用循环的方式排好序，最后它还是会自动打乱，本身不支持；
+        //2.所以，我们只能找一个和HashMap有关的、可排序的数据结构→LinkedHashMap:底层是链表结构，支持排序；
+        LinkedHashMap<Integer, User> newSortHashMap = new LinkedHashMap<>();
+        //3.既然对集合进行排序，首先要想到使用集合本身自带的工具类；
+        //4.Collections.sort()方法传入的是一个List,所以我们还要把HashMap先转换成List...
+        //5.然而，HashMap和List还不能直接转换，还要经过Set转换...
+        Set<Map.Entry<Integer, User>> entries = hashMap.entrySet();
+        ArrayList<Map.Entry<Integer, User>> list = new ArrayList<>(entries);
+        Collections.sort(list, new Comparator<Map.Entry<Integer, User>>() {
+            @Override
+            public int compare(Map.Entry<Integer, User> integerUserEntry, Map.Entry<Integer, User> t1) {
+                return integerUserEntry.getValue().getAge() - t1.getValue().getAge();
+            }
+        });
+        //6.排序已完成，最后把list转为LinkedHashMap即可
+        for (int i = 0; i < list.size(); i++) {
+            Map.Entry<Integer, User> integerUserEntry = list.get(i);
+            newSortHashMap.put(integerUserEntry.getKey(), integerUserEntry.getValue());
+        }
+        return newSortHashMap;
+    }
+
 
     private long time = 0;
 

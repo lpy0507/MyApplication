@@ -201,14 +201,14 @@ public class SpeechRecognitionActivity extends Activity {
             try {
                 if (null != fis) {
                     fis.close();
-                    fis = null;
+//                    fis = null;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         // 2、音频流听写
-        if (0 == voiceBuffer.length) {
+        if (voiceBuffer==null||0 == voiceBuffer.length) {
             mResult.append("no audio avaible!");
         } else {
             //解析之前将存出结果置为空
